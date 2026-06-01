@@ -1,0 +1,39 @@
+name: terraform-apply
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "terraform/**"
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  WIF_PROVIDER: projects/783778742587/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+  CI_SA: k8s-iac-poc-ci@k8s-iac-poc.iam.gserviceaccount.com
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    environment: poc-apply # pauses for required-reviewer approval
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.CI_SA }}
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - run: terraform init -input=false
+
+      - run: terraform apply -input=false -auto-approve -var-file=poc.tfvars
