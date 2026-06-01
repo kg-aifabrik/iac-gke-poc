@@ -7,6 +7,10 @@ permissions:
   contents: read
   id-token: write
 
+concurrency:
+  group: terraform-state
+  cancel-in-progress: false
+
 env:
   WIF_PROVIDER: projects/783778742587/locations/global/workloadIdentityPools/github-pool/providers/github-provider
   CI_SA: k8s-iac-poc-ci@k8s-iac-poc.iam.gserviceaccount.com
