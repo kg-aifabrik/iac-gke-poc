@@ -97,7 +97,7 @@ resource "google_container_node_pool" "system" {
   }
 
   node_config {
-    machine_type    = "e2-small"
+    machine_type    = "e2-standard-2"
     spot            = local.node_common.spot
     image_type      = local.node_common.image_type
     disk_size_gb    = local.node_common.disk_size_gb
@@ -129,7 +129,7 @@ resource "google_container_node_pool" "general" {
   }
 
   node_config {
-    machine_type    = "e2-small"
+    machine_type    = "e2-standard-2"
     spot            = local.node_common.spot
     image_type      = local.node_common.image_type
     disk_size_gb    = local.node_common.disk_size_gb
