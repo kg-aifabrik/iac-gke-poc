@@ -162,7 +162,7 @@ resource "google_container_node_pool" "confidential" {
 
   node_config {
     machine_type    = "n2d-standard-2" # AMD SEV-capable
-    spot            = local.node_common.spot
+    spot            = false
     image_type      = local.node_common.image_type
     disk_size_gb    = local.node_common.disk_size_gb
     disk_type       = local.node_common.disk_type
